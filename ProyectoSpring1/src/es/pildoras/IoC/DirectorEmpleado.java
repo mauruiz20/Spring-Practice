@@ -2,6 +2,10 @@ package es.pildoras.IoC;
 
 public class DirectorEmpleado implements Empleados {
 	
+	private String email;
+	
+	private String nombreEmpresa;
+	
 	// Creación de campo tipo CreaciónInforme (Interfaz)
 	
 	private CreacionInformes informeNuevo;
@@ -21,6 +25,22 @@ public class DirectorEmpleado implements Empleados {
 	public String getInforme() {
 		// TODO Auto-generated method stub
 		return "Informe creado por el Director: " + informeNuevo.getInforme();
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getNombreEmpresa() {
+		return nombreEmpresa;
+	}
+
+	public void setNombreEmpresa(String nombreEmpresa) {
+		this.nombreEmpresa = nombreEmpresa;
 	}
 
 }
