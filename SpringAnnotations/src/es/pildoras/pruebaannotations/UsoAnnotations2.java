@@ -18,7 +18,7 @@ public class UsoAnnotations2 {
 		
 		// Pedir un bean al contenedor
 		
-		Empleados Antonio = contexto.getBean("comercialExperimentado", Empleados.class);
+		/*Empleados Antonio = contexto.getBean("comercialExperimentado", Empleados.class);
 		
 		Empleados Lucia = contexto.getBean("comercialExperimentado", Empleados.class);
 		
@@ -29,7 +29,13 @@ public class UsoAnnotations2 {
 		} else {
 			System.out.println("No apuntan al mismo lugar en memoria");
 		}
-		System.out.println(Antonio + "\n" + Lucia);	
+		System.out.println(Antonio + "\n" + Lucia);	*/
+		
+		Empleados empleado = contexto.getBean("directorFinanciero", Empleados.class);
+		
+		System.out.println(empleado.getTareas());
+		
+		System.out.println(empleado.getInforme());
 		
 		// Cerrar el contexto
 		
