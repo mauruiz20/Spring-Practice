@@ -1,14 +1,16 @@
 package es.pildoras.pruebaannotations;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ComercialExperimentado implements Empleados {
 	
-	// Autowired con campo
+	// Autowired con campo de clase y qualifier
 	
 	@Autowired
+	@Qualifier("informeFinancieroTrim4")
 	private CreacionInformeFinanciero nuevoInforme;
 	
 	public ComercialExperimentado() {
