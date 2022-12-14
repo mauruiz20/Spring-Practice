@@ -7,6 +7,7 @@ import javax.persistence.*;
 public class Clientes {
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="Id")
 	private int Id;
 	
@@ -19,8 +20,7 @@ public class Clientes {
 	@Column(name="Direccion")
 	private String Direccion;
 	
-	public void Clientes () {		
-	}	
+	public Clientes(){}	
 	
 	public Clientes(String nombre, String apellidos, String direccion) {		
 		Nombre = nombre;
