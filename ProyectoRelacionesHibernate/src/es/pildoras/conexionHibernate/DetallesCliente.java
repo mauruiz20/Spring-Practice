@@ -20,7 +20,7 @@ public class DetallesCliente {
 	@Column(name="Comentarios")
 	private String Comentarios;
 	
-	@OneToOne(mappedBy="detallesCliente", cascade=CascadeType.ALL)
+	@OneToOne(mappedBy="detallesCliente")
 	private Clientes elCliente;
 	
 	public DetallesCliente(){}

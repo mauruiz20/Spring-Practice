@@ -28,11 +28,20 @@ public class ObtenerCliente {
 		
 		System.out.println(detallesDeCliente.getElCliente());
 		
-		miSession.getTransaction().commit();			
+		// Borrar en cascada
 		
-		miSession.close();
+		miSession.delete(detallesDeCliente);
+		
+		miSession.getTransaction().commit();
+		
+		
+		} catch (Exception ex1) {
+			
+			ex1.printStackTrace();
 		
 		} finally {
+			
+			miSession.close();
 		
 			miFactory.close();
 		}

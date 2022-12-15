@@ -1,10 +1,13 @@
 package es.pildoras.conexionHibernate;
 
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-public class InsertaCliente {
+public class ObtenerPedidosCliente {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -17,27 +20,27 @@ SessionFactory miFactory = new Configuration().configure("hibernate.cfg.xml")
 		
 		Session miSession = miFactory.openSession();
 		
-		try {
+		try {					
 			
-			Clientes cliente1 = new Clientes("Paco", "Gomez", "9 de julio");
+			miSession.beginTransaction();	
 			
-			DetallesCliente detallesCliente1 = new DetallesCliente("www.pildorasinformaticas.es", "123456", "Segundo cliente");
+			// Obtener el cliente de la tabla Clientes de la BD
 			
-			// Asociar los objetos
+			Clientes elCliente = miSession.get(Clientes.class, 4);			
 			
-			cliente1.setDetallesCliente(detallesCliente1);			
+			System.out.println("Cliente: " + elCliente);
 			
-			miSession.beginTransaction();
+			System.out.println("Pedidos: " + elCliente.getPedidos());
 			
-			miSession.save(cliente1);
+			miSession.getTransaction().commit();			
 			
-			miSession.getTransaction().commit();
+		} catch (Exception ex1) {
 			
-			System.out.println("Registro insertado correctamente en BD");
-			
-			miSession.close();
+			ex1.printStackTrace();
 			
 		} finally {
+			
+			miSession.close();
 			
 			miFactory.close();
 		}
