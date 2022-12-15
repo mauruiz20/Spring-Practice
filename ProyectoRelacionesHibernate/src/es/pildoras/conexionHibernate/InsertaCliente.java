@@ -18,9 +18,9 @@ SessionFactory miFactory = new Configuration().configure("hibernate.cfg.xml")
 		
 		try {
 			
-			Clientes cliente1 = new Clientes("Juan", "Perez", "25 de Mayo 245");
+			Clientes cliente1 = new Clientes("Paco", "Gomez", "9 de julio");
 			
-			DetallesCliente detallesCliente1 = new DetallesCliente("www.pildorasinformaticas.es", "51231245", "Primer cliente");
+			DetallesCliente detallesCliente1 = new DetallesCliente("www.pildorasinformaticas.es", "123456", "Segundo cliente");
 			
 			// Asociar los objetos
 			

@@ -20,6 +20,9 @@ public class DetallesCliente {
 	@Column(name="Comentarios")
 	private String Comentarios;
 	
+	@OneToOne(mappedBy="detallesCliente", cascade=CascadeType.ALL)
+	private Clientes elCliente;
+	
 	public DetallesCliente(){}
 
 	public DetallesCliente(String web, String telefono, String comentarios) {		
@@ -64,6 +67,14 @@ public class DetallesCliente {
 
 	public void setComentarios(String comentarios) {
 		Comentarios = comentarios;
+	}
+
+	public Clientes getElCliente() {
+		return elCliente;
+	}
+
+	public void setElCliente(Clientes elCliente) {
+		this.elCliente = elCliente;
 	}
 	
 }
