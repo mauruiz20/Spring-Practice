@@ -6,6 +6,7 @@ import java.util.GregorianCalendar;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 
 public class ObtenerPedidosCliente {
 
@@ -26,13 +27,21 @@ SessionFactory miFactory = new Configuration().configure("hibernate.cfg.xml")
 			
 			// Obtener el cliente de la tabla Clientes de la BD
 			
-			Clientes elCliente = miSession.get(Clientes.class, 4);			
+			//Clientes elCliente = miSession.get(Clientes.class, 4);			
 			
-			System.out.println("Cliente: " + elCliente);
+			Query<Clientes> consulta = miSession.createQuery("SELECT CL FROM Clientes CL JOIN FETCH CL.pedidos WHERE CL.Id=:elClienteId", Clientes.class);
+			
+			consulta.setParameter("elClienteId", 4);
+			
+			Clientes elCliente = consulta.getSingleResult();
+					
+			System.out.println("Cliente: " + elCliente);			
+			
+			miSession.getTransaction().commit();
+			
+			miSession.close();
 			
 			System.out.println("Pedidos: " + elCliente.getPedidos());
-			
-			miSession.getTransaction().commit();			
 			
 		} catch (Exception ex1) {
 			
@@ -40,7 +49,7 @@ SessionFactory miFactory = new Configuration().configure("hibernate.cfg.xml")
 			
 		} finally {
 			
-			miSession.close();
+			
 			
 			miFactory.close();
 		}

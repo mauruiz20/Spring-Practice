@@ -26,7 +26,7 @@ public class Clientes {
 	@JoinColumn(name="Id")
 	private DetallesCliente detallesCliente;
 	
-	@OneToMany(mappedBy="Cliente", cascade= {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="Cliente", cascade= {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
 	private List<Pedidos> pedidos;
 	
 	public Clientes(){}	
