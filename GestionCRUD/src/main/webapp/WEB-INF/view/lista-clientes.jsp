@@ -11,22 +11,35 @@
 </head>
 <body>
 
-Lista de clientes
+<h1>Lista de clientes</h1>
 
 <table>
 	<tr>
 		<th>Nombre</th>
 		<th>Apellido</th>
 		<th>Email</th>
+		<th>Acciones</th>
 	</tr>
 	<c:forEach var="clienteTemp" items="${clientes}">
+	
+		<c:url var="linkEditar" value="/cliente/muestraFormularioEditar">
+			
+			<c:param name="clienteId" value="${clienteTemp.id}"/>
+			
+		</c:url>
+	
 		<tr>
 			<td>${clienteTemp.nombre}</td>
 			<td>${clienteTemp.apellido}</td>
 			<td>${clienteTemp.email}</td>
+			<td><a href="${linkEditar}"><input type="button" value="E" /></a></td>
 		</tr>
 	</c:forEach>
 </table>
+
+<br />
+
+<input type="button" value="Agregar Cliente" onclick="window.location.href='muestraFormularioAgregar'; return false;" />
 
 </body>
 </html>
