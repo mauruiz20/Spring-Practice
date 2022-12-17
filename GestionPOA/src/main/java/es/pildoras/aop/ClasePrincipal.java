@@ -3,6 +3,7 @@ package es.pildoras.aop;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import es.pildoras.aop.dao.ClienteDAO;
+import es.pildoras.aop.dao.ClienteVIPDAO;
 
 public class ClasePrincipal {
 
@@ -17,9 +18,13 @@ public class ClasePrincipal {
 		
 		ClienteDAO elCliente = contexto.getBean("clienteDAO", ClienteDAO.class);
 		
+		ClienteVIPDAO elClienteVIP = contexto.getBean("clienteVIPDAO", ClienteVIPDAO.class);
+		
 		// Llamar al método
 		
 		elCliente.insertaCliente();
+		
+		elClienteVIP.insertaClienteVIP();
 		
 		// Cerrar el contexto
 		
