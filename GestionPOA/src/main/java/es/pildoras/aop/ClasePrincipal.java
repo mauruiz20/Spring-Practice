@@ -28,6 +28,12 @@ public class ClasePrincipal {
 		
 		elClienteVIP.insertaClienteVIP();
 		
+		elCliente.setCodigoClienteNormal("123465");
+		elCliente.setValoracionClienteNormal("positiva");
+		
+		String codigoCl = elCliente.getCodigoClienteNormal();
+		String valoraCL = elCliente.getValoracionClienteNormal();
+		
 		// Cerrar el contexto
 		
 		contexto.close();
