@@ -70,6 +70,18 @@ public class Controlador {
 		return "formularioCliente";
 	}
 	
+	@GetMapping("/borrar")
+	public String borrarCliente(@RequestParam("clienteId") int Id) {
+		
+		// Eliminar el cliente
+		
+		clienteDAO.deleteCliente(Id);		
+		
+		// Redireccionar a la lista clientes
+		
+		return "redirect:/cliente/lista";
+	}
+	
 	
 	@Autowired
 	private ClienteDAO clienteDAO;

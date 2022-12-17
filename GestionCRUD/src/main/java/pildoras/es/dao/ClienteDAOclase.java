@@ -48,7 +48,9 @@ public class ClienteDAOclase implements ClienteDAO {
 		
 		// Insertar el cliente
 		
-		miSession.save(elCliente);
+		//miSession.save(elCliente);
+		
+		miSession.saveOrUpdate(elCliente);
 	}
 
 	@Override
@@ -65,6 +67,25 @@ public class ClienteDAOclase implements ClienteDAO {
 		Cliente elCliente = miSession.get(Cliente.class, id);	
 		
 		return elCliente;
+	}
+
+	@Override
+	@Transactional
+	public void deleteCliente(int id) {
+		// TODO Auto-generated method stub
+		
+		// Obtener la sesión
+		
+		Session miSession = sessionFactory.getCurrentSession();
+			
+		// Borrar cliente
+		
+		Query consulta = miSession.createQuery("delete from Cliente where id=:ClienteId");
+		
+		consulta.setParameter("ClienteId", id);
+		
+		consulta.executeUpdate();
+		
 	}	
 	
 }

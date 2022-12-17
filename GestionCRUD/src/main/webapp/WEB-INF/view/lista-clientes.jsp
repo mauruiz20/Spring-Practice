@@ -27,12 +27,21 @@
 			<c:param name="clienteId" value="${clienteTemp.id}"/>
 			
 		</c:url>
+		
+		<c:url var="linkBorrar" value="/cliente/borrar">
+			
+			<c:param name="clienteId" value="${clienteTemp.id}"/>
+			
+		</c:url>
 	
 		<tr>
 			<td>${clienteTemp.nombre}</td>
 			<td>${clienteTemp.apellido}</td>
 			<td>${clienteTemp.email}</td>
-			<td><a href="${linkEditar}"><input type="button" value="E" /></a></td>
+			<td>
+				<a href="${linkEditar}"><input type="button" value="E" /></a>
+				<a href="${linkBorrar}"><input type="button" value="B" onclick="if (!(confirm('Confirma borrar?'))) return false"/></a>
+			</td>
 		</tr>
 	</c:forEach>
 </table>
