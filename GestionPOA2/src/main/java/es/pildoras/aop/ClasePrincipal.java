@@ -24,7 +24,11 @@ public class ClasePrincipal {
 		
 		Cliente cl1 = new Cliente();
 		
-		elCliente.insertaCliente(cl1, "Normal");
+		cl1.setNombre("Juan Díaz");
+		
+		cl1.setTipo("Normal");
+		
+		elCliente.insertaCliente(cl1, cl1.getTipo());
 		
 		elClienteVIP.insertaClienteVIP();		
 		

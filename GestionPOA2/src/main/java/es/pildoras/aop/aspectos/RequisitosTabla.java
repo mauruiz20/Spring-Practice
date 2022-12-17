@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
-@Order(3)
+@Order(2)
 public class RequisitosTabla {
 
 	@Before("es.pildoras.aop.aspectos.LoginConAspecto.paraClientes()")	
