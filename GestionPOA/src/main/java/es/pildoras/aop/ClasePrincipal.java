@@ -22,7 +22,9 @@ public class ClasePrincipal {
 		
 		// Llamar al método
 		
-		elCliente.insertaCliente();
+		Cliente cl1 = new Cliente();
+		
+		elCliente.insertaCliente(cl1, "Normal");
 		
 		elClienteVIP.insertaClienteVIP();
 		

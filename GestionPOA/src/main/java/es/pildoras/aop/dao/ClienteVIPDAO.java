@@ -7,7 +7,7 @@ public class ClienteVIPDAO {
 
 	public void insertaClienteVIP() {
 		
-		System.out.println("Cliente VIP insertado con éxito");
+		System.out.println("\nCliente VIP insertado con éxito\n");
 		
 	}
 }
