@@ -1,16 +1,25 @@
 package com.cursospring.curso.controllers;
 
+import com.cursospring.curso.dao.UsuarioDao;
 import com.cursospring.curso.models.Usuario;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.cursospring.curso.utils.JWTUtil;
+import de.mkammerer.argon2.Argon2;
+import de.mkammerer.argon2.Argon2Factory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 public class UsuarioController {
-    @RequestMapping(value = "usuario/{id}")
+
+    @Autowired
+    private UsuarioDao usuarioDao;
+    @Autowired
+    private JWTUtil jwtUtil;
+
+    @RequestMapping(value = "api/usuarios/{id}", method = RequestMethod.GET)
     public Usuario getUsuario(@PathVariable Long id) {
 
         Usuario usuario = new Usuario();
@@ -23,40 +32,20 @@ public class UsuarioController {
         return usuario;
     }
 
-    @RequestMapping(value = "usuarios")
-    public List<Usuario> getUsuarios() {
+    @RequestMapping(value = "api/usuarios", method = RequestMethod.GET)
+    public List<Usuario> getUsuarios(@RequestHeader(value = "Authorization")  String token) {
 
-        List<Usuario> usuarios = new ArrayList<>();
+        if (!validarToken(token)) return null;
+        return usuarioDao.getUsuarios();
+    }
 
-        Usuario usuario1 = new Usuario();
+    @RequestMapping(value = "api/usuarios", method = RequestMethod.POST)
+    public void addUsuario(@RequestBody Usuario usuario) {
 
-        usuario1.setId(1L);
-        usuario1.setNombre("Mauricio");
-        usuario1.setApellido("Ruiz");
-        usuario1.setEmail("ruizmauricio@gmail.nom");
-        usuario1.setTelefono("12345679");
-
-        Usuario usuario2 = new Usuario();
-
-        usuario2.setId(2L);
-        usuario2.setNombre("Mauricio");
-        usuario2.setApellido("Ruiz");
-        usuario2.setEmail("ruizmauricio@gmail.nom");
-        usuario2.setTelefono("12345679");
-
-        Usuario usuario3 = new Usuario();
-
-        usuario3.setId(3L);
-        usuario3.setNombre("Mauricio");
-        usuario3.setApellido("Ruiz");
-        usuario3.setEmail("ruizmauricio@gmail.nom");
-        usuario3.setTelefono("12345679");
-
-        usuarios.add(usuario1);
-        usuarios.add(usuario2);
-        usuarios.add(usuario3);
-
-        return usuarios;
+        Argon2 argon2  = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id);
+        String hash = argon2.hash(1, 1024, 1, usuario.getPassword());
+        usuario.setPassword(hash);
+        usuarioDao.addUsuario(usuario);
     }
 
     @RequestMapping(value = "usuario123")
@@ -71,27 +60,16 @@ public class UsuarioController {
         return usuario;
     }
 
-    @RequestMapping(value = "usuario41")
-    public Usuario eliminar() {
+    @RequestMapping(value = "api/usuarios/{id}", method = RequestMethod.DELETE)
+    public void deleteUsuario(@RequestHeader(value = "Authorization")  String token, @PathVariable Long id) {
 
-        Usuario usuario = new Usuario();
-        usuario.setNombre("Mauricio");
-        usuario.setApellido("Ruiz");
-        usuario.setEmail("ruizmauricio@gmail.nom");
-        usuario.setTelefono("12345679");
-
-        return usuario;
+        if (validarToken(token)) {
+            usuarioDao.deleteUsuario(id);
+        }
     }
 
-    @RequestMapping(value = "usuario51")
-    public Usuario buscar() {
-
-        Usuario usuario = new Usuario();
-        usuario.setNombre("Mauricio");
-        usuario.setApellido("Ruiz");
-        usuario.setEmail("ruizmauricio@gmail.nom");
-        usuario.setTelefono("12345679");
-
-        return usuario;
+    private boolean validarToken(String token) {
+        String usuarioId = jwtUtil.getKey(token);
+        return  usuarioId != null;
     }
 }
