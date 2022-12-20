@@ -23,7 +23,7 @@ async function iniciarSesion() {
     if (response !== 'FAIL') {
         localStorage.token = response;
         localStorage.email = datos.email;
-        window.location.href = "usuarios.html";
+        window.location.href = "index.html";
     } else {
         alert("Credenciales incorrectas");
     }
