@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/clientes")
+@CrossOrigin
 public class ClientesController {
     @Autowired
     ClientesService clientesService;
@@ -22,7 +23,7 @@ public class ClientesController {
                                                          @RequestParam(name = "offSet", defaultValue = "0") String offSet,
                                                          @RequestParam(name = "rowCount", defaultValue = "50") String rowCount) {
         List<Clientes> clientes = clientesService.buscarClientes(cadena, incluyeBajas, offSet, rowCount);
-        return new ResponseEntity(clientes, HttpStatus.OK);
+        return new ResponseEntity<>(clientes, HttpStatus.OK);
     }
 
     @GetMapping("/{IdCliente}")
@@ -34,31 +35,31 @@ public class ClientesController {
     @PostMapping("")
     public ResponseEntity<?> crearCliente(@RequestBody Clientes cliente) {
         List<String> msg = clientesService.crearCliente(cliente);
-        return new ResponseEntity(msg, HttpStatus.CREATED);
+        return new ResponseEntity<>(msg, HttpStatus.CREATED);
 
     }
 
     @PutMapping("/{IdCliente}")
     public ResponseEntity<?> modificarCliente(@RequestBody Clientes cliente, @PathVariable("IdCliente") int IdCliente) {
         List<String> msg = clientesService.modificarCliente(cliente, IdCliente);
-        return new ResponseEntity(msg, HttpStatus.OK);
+        return new ResponseEntity<>(msg, HttpStatus.OK);
     }
 
     @DeleteMapping("/{IdCliente}")
     public ResponseEntity<?> borrarCliente(@PathVariable("IdCliente") int IdCliente) {
         List<String> msg = clientesService.borrarCliente(IdCliente);
-        return new ResponseEntity(msg, HttpStatus.OK);
+        return new ResponseEntity<>(msg, HttpStatus.OK);
     }
 
     @PatchMapping("/{IdCliente}/alta")
     public ResponseEntity<?> darAltaCliente(@PathVariable("IdCliente") int IdCliente) {
         List<String> msg = clientesService.darAltaCliente(IdCliente);
-        return new ResponseEntity(msg, HttpStatus.OK);
+        return new ResponseEntity<>(msg, HttpStatus.OK);
     }
 
     @PatchMapping("/{IdCliente}/baja")
     public ResponseEntity<?> darBajaCliente(@PathVariable("IdCliente") int IdCliente) {
         List<String> msg = clientesService.darBajaCliente(IdCliente);
-        return new ResponseEntity(msg, HttpStatus.OK);
+        return new ResponseEntity<>(msg, HttpStatus.OK);
     }
 }

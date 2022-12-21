@@ -38,7 +38,7 @@ public class ClientesService {
                 cliente.getNacionalidad()
         );
 
-        if (!response.get(0).equals("OK")) throw new BadRequestException(response.get(0));
+        if (!response.get(0).contains("OK")) throw new BadRequestException(response.get(0));
 
         return response;
     }
