@@ -1,5 +1,7 @@
 package com.spring.crudtemplate.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import org.springframework.lang.NonNull;
 
@@ -33,7 +35,7 @@ public class Clientes {
     @Column(name = "Nacionalidad") @NonNull
     private String Nacionalidad;
 
-    @Column(name = "Estadocliente")
+    @Column(name = "Estadocliente") @NonNull
     private char EstadoCliente;
 
     public Clientes() {

@@ -13,8 +13,8 @@ public class ClientesService {
     @Autowired
     ClientesRepository clientesRepository;
 
-    public List<Clientes> buscarClientes() {
-        return clientesRepository.csp_buscar_clientes();
+    public List<Clientes> buscarClientes(String cadena, String incluyeBajas, String offSet, String rowCount) {
+        return clientesRepository.csp_buscar_clientes(cadena, incluyeBajas, offSet, rowCount);
     }
 
     public Optional<Clientes> dameCliente(int IdCliente) {
@@ -22,11 +22,38 @@ public class ClientesService {
     }
 
     public List<String> crearCliente(Clientes cliente) {
-        return clientesRepository.csp_crear_cliente(cliente.getApellidos(), cliente.getNombres(), cliente.getEmail(),
-                cliente.getTelefono(), cliente.getDireccion(), cliente.getNacimiento(), cliente.getNacionalidad());
+        return clientesRepository.csp_crear_cliente(
+                cliente.getApellidos(),
+                cliente.getNombres(),
+                cliente.getEmail(),
+                cliente.getTelefono(),
+                cliente.getDireccion(),
+                cliente.getNacimiento(),
+                cliente.getNacionalidad());
     }
 
-    public List<String> borrarCliente(int IdCliente){
+    public List<String> modificarCliente(Clientes cliente, int IdCliente) {
+        return clientesRepository.csp_modificar_cliente(
+                IdCliente,
+                cliente.getApellidos(),
+                cliente.getNombres(),
+                cliente.getEmail(),
+                cliente.getTelefono(),
+                cliente.getDireccion(),
+                cliente.getNacimiento(),
+                cliente.getNacionalidad());
+    }
+
+    public List<String> borrarCliente(int IdCliente) {
         return clientesRepository.csp_borrar_cliente(IdCliente);
     }
+
+    public List<String> darAltaCliente(int IdCliente) {
+        return clientesRepository.csp_daralta_cliente(IdCliente);
+    }
+
+    public List<String> darBajaCliente(int IdCliente) {
+        return clientesRepository.csp_darbaja_cliente(IdCliente);
+    }
 }
+
