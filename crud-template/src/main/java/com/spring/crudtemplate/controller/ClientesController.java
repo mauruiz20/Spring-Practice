@@ -7,8 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/clientes")
@@ -18,12 +17,17 @@ public class ClientesController {
     ClientesService clientesService;
 
     @GetMapping("")
-    public ResponseEntity<List<Clientes>> buscarClientes(@RequestParam(name = "cadena", defaultValue = "") String cadena,
+    public ResponseEntity<Map<String, Object>> buscarClientes(@RequestParam(name = "cadena", defaultValue = "") String cadena,
                                                          @RequestParam(name = "incluyeBajas", defaultValue = "S") String incluyeBajas,
                                                          @RequestParam(name = "offSet", defaultValue = "0") String offSet,
                                                          @RequestParam(name = "rowCount", defaultValue = "50") String rowCount) {
+        Map<String, Object> endpoint = new TreeMap<String, Object>();
         List<Clientes> clientes = clientesService.buscarClientes(cadena, incluyeBajas, offSet, rowCount);
-        return new ResponseEntity<>(clientes, HttpStatus.OK);
+
+        endpoint.put("numRows", 150);
+        endpoint.put("results", clientes);
+
+        return new ResponseEntity<>(endpoint, HttpStatus.OK);
     }
 
     @GetMapping("/{IdCliente}")
@@ -34,32 +38,37 @@ public class ClientesController {
 
     @PostMapping("")
     public ResponseEntity<?> crearCliente(@RequestBody Clientes cliente) {
-        List<String> msg = clientesService.crearCliente(cliente);
+        String msg = clientesService.crearCliente(cliente);
+        if (!msg.contains("Cliente")) return new ResponseEntity<>(msg, HttpStatus.ACCEPTED);
         return new ResponseEntity<>(msg, HttpStatus.CREATED);
 
     }
 
     @PutMapping("/{IdCliente}")
-    public ResponseEntity<?> modificarCliente(@RequestBody Clientes cliente, @PathVariable("IdCliente") int IdCliente) {
-        List<String> msg = clientesService.modificarCliente(cliente, IdCliente);
+    public ResponseEntity<String> modificarCliente(@RequestBody Clientes cliente, @PathVariable("IdCliente") int IdCliente) {
+        String msg = clientesService.modificarCliente(cliente, IdCliente);
+        if (!msg.contains("Cliente")) return new ResponseEntity<>(msg, HttpStatus.ACCEPTED);
         return new ResponseEntity<>(msg, HttpStatus.OK);
     }
 
     @DeleteMapping("/{IdCliente}")
-    public ResponseEntity<?> borrarCliente(@PathVariable("IdCliente") int IdCliente) {
-        List<String> msg = clientesService.borrarCliente(IdCliente);
+    public ResponseEntity<String> borrarCliente(@PathVariable("IdCliente") int IdCliente) {
+        String msg = clientesService.borrarCliente(IdCliente);
+        if (!msg.contains("Cliente")) return new ResponseEntity<>(msg, HttpStatus.ACCEPTED);
         return new ResponseEntity<>(msg, HttpStatus.OK);
     }
 
     @PatchMapping("/{IdCliente}/alta")
-    public ResponseEntity<?> darAltaCliente(@PathVariable("IdCliente") int IdCliente) {
-        List<String> msg = clientesService.darAltaCliente(IdCliente);
+    public ResponseEntity<String> darAltaCliente(@PathVariable("IdCliente") int IdCliente) {
+        String msg = clientesService.darAltaCliente(IdCliente);
+        if (!msg.contains("Cliente")) return new ResponseEntity<>(msg, HttpStatus.ACCEPTED);
         return new ResponseEntity<>(msg, HttpStatus.OK);
     }
 
     @PatchMapping("/{IdCliente}/baja")
-    public ResponseEntity<?> darBajaCliente(@PathVariable("IdCliente") int IdCliente) {
-        List<String> msg = clientesService.darBajaCliente(IdCliente);
+    public ResponseEntity<String> darBajaCliente(@PathVariable("IdCliente") int IdCliente) {
+        String msg = clientesService.darBajaCliente(IdCliente);
+        if (!msg.contains("Cliente")) return new ResponseEntity<>(msg, HttpStatus.ACCEPTED);
         return new ResponseEntity<>(msg, HttpStatus.OK);
     }
 }

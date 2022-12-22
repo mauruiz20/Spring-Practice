@@ -1,6 +1,5 @@
 package com.spring.crudtemplate.service;
 
-import com.spring.crudtemplate.exception.BadRequestException;
 import com.spring.crudtemplate.model.Clientes;
 import com.spring.crudtemplate.repository.ClientesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +23,10 @@ public class ClientesService {
         return clientesRepository.csp_dame_cliente(IdCliente);
     }
 
-    public List<String> crearCliente(Clientes cliente) {
+    public String crearCliente(Clientes cliente) {
 
-        validarCampos(cliente);
-
-        List<String> response = clientesRepository.csp_crear_cliente(
+        if (!validarCampos(cliente)) return "Parámetros erróneos";
+        return clientesRepository.csp_crear_cliente(
                 cliente.getApellidos(),
                 cliente.getNombres(),
                 cliente.getEmail(),
@@ -37,17 +35,12 @@ public class ClientesService {
                 cliente.getNacimiento(),
                 cliente.getNacionalidad()
         );
-
-        if (!response.get(0).contains("OK")) throw new BadRequestException(response.get(0));
-
-        return response;
     }
 
-    public List<String> modificarCliente(Clientes cliente, int IdCliente) {
+    public String modificarCliente(Clientes cliente, int IdCliente) {
 
-        validarCampos(cliente);
-
-        List<String> response = clientesRepository.csp_modificar_cliente(
+        if (!validarCampos(cliente)) return "Parámetros erróneos";
+        return clientesRepository.csp_modificar_cliente(
                 IdCliente,
                 cliente.getApellidos(),
                 cliente.getNombres(),
@@ -57,36 +50,24 @@ public class ClientesService {
                 cliente.getNacimiento(),
                 cliente.getNacionalidad()
         );
-
-        if (!response.get(0).equals("OK")) throw new BadRequestException(response.get(0));
-
-        return response;
     }
 
-    public List<String> borrarCliente(int IdCliente) {
+    public String borrarCliente(int IdCliente) {
 
         return clientesRepository.csp_borrar_cliente(IdCliente);
     }
 
-    public List<String> darAltaCliente(int IdCliente) {
+    public String darAltaCliente(int IdCliente) {
 
-        List<String> response = clientesRepository.csp_daralta_cliente(IdCliente);
-
-        if (!response.get(0).equals("OK")) throw new BadRequestException(response.get(0));
-
-        return response;
+        return clientesRepository.csp_daralta_cliente(IdCliente);
     }
 
-    public List<String> darBajaCliente(int IdCliente) {
+    public String darBajaCliente(int IdCliente) {
 
-        List<String> response = clientesRepository.csp_darbaja_cliente(IdCliente);
-
-        if (!response.get(0).equals("OK")) throw new BadRequestException(response.get(0));
-
-        return response;
+        return clientesRepository.csp_darbaja_cliente(IdCliente);
     }
 
-    private void validarCampos(Clientes cliente) {
+    private boolean validarCampos(Clientes cliente) {
         String apellidos = cliente.getApellidos();
         String nombres = cliente.getNombres();
         String email = cliente.getEmail();
@@ -95,11 +76,10 @@ public class ClientesService {
         String nacimiento = cliente.getNacimiento();
         String nacionalidad = cliente.getNacionalidad();
 
-        if (apellidos == null || apellidos.equals("") || nombres == null || nombres.equals("") ||
+        return !(apellidos == null || apellidos.equals("") || nombres == null || nombres.equals("") ||
                 email == null || email.equals("") || telefono == null || telefono.equals("") || direccion == null ||
                 direccion.equals("") || nacimiento == null || nacimiento.equals("") || nacionalidad == null ||
-                nacionalidad.equals(""))
-            throw new BadRequestException("Parámetros erróneos.");
+                nacionalidad.equals(""));
     }
 }
 
