@@ -1,21 +1,29 @@
 package com.spring.crudtemplate.service;
 
+import com.spring.crudtemplate.model.Busqueda;
 import com.spring.crudtemplate.model.Clientes;
 import com.spring.crudtemplate.repository.ClientesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.logging.Logger;
 
 @Service
 public class ClientesService {
     @Autowired
     ClientesRepository clientesRepository;
 
-    public List<Clientes> buscarClientes(String cadena, String incluyeBajas, String offSet, String rowCount) {
+    public Map<String, Object> buscarClientes(String cadena, String incluyeBajas, String offSet, String rowCount) {
 
-        return clientesRepository.csp_buscar_clientes(cadena, incluyeBajas, offSet, rowCount);
+        Map<String, Object> endpoint = new TreeMap<String, Object>();
+        int numRows = clientesRepository.obtenerNumRows(cadena, incluyeBajas);
+        List<Clientes> clientes = clientesRepository.csp_buscar_clientes(cadena, incluyeBajas, offSet, rowCount);
+
+        endpoint.put("numRows", numRows);
+        endpoint.put("results", clientes);
+
+        return endpoint;
     }
 
     public Optional<Clientes> dameCliente(int IdCliente) {

@@ -1,8 +1,10 @@
 package com.spring.crudtemplate.repository;
 
+import com.spring.crudtemplate.model.Busqueda;
 import com.spring.crudtemplate.model.Clientes;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -18,6 +20,12 @@ public interface ClientesRepository extends JpaRepository<Clientes, Integer> {
             @Param("pIncluyeBajas") String pIncluyeBajas,
             @Param("pOffSet") String pOffSet,
             @Param("pRowCount") String pRowCount
+    );
+
+    @Query(value = "call csp_obtener_num_clientes(:pCadena, :pIncluyeBajas)", nativeQuery = true)
+    Integer obtenerNumRows(
+            @Param("pCadena") String pCadena,
+            @Param("pIncluyeBajas") String pIncluyeBajas
     );
 
     @Query(value = "{call csp_dame_cliente(:pIdCliente)}", nativeQuery = true)

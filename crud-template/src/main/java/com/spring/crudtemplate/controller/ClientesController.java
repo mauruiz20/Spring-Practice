@@ -1,5 +1,6 @@
 package com.spring.crudtemplate.controller;
 
+import com.spring.crudtemplate.model.Busqueda;
 import com.spring.crudtemplate.model.Clientes;
 import com.spring.crudtemplate.service.ClientesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +21,8 @@ public class ClientesController {
     public ResponseEntity<Map<String, Object>> buscarClientes(@RequestParam(name = "cadena", defaultValue = "") String cadena,
                                                          @RequestParam(name = "incluyeBajas", defaultValue = "S") String incluyeBajas,
                                                          @RequestParam(name = "offSet", defaultValue = "0") String offSet,
-                                                         @RequestParam(name = "rowCount", defaultValue = "50") String rowCount) {
-        Map<String, Object> endpoint = new TreeMap<String, Object>();
-        List<Clientes> clientes = clientesService.buscarClientes(cadena, incluyeBajas, offSet, rowCount);
-
-        endpoint.put("numRows", 150);
-        endpoint.put("results", clientes);
-
+                                                         @RequestParam(name = "rowCount", defaultValue = "25") String rowCount) {
+        Map<String, Object> endpoint = clientesService.buscarClientes(cadena, incluyeBajas, offSet, rowCount);
         return new ResponseEntity<>(endpoint, HttpStatus.OK);
     }
 
