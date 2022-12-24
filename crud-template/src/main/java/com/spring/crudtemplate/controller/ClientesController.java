@@ -1,6 +1,5 @@
 package com.spring.crudtemplate.controller;
 
-import com.spring.crudtemplate.model.Busqueda;
 import com.spring.crudtemplate.model.Clientes;
 import com.spring.crudtemplate.service.ClientesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@RequestMapping("/clientes")
-@CrossOrigin
+@RequestMapping("api/clientes")
 public class ClientesController {
     @Autowired
     ClientesService clientesService;
@@ -20,9 +18,10 @@ public class ClientesController {
     @GetMapping("")
     public ResponseEntity<Map<String, Object>> buscarClientes(@RequestParam(name = "cadena", defaultValue = "") String cadena,
                                                          @RequestParam(name = "incluyeBajas", defaultValue = "S") String incluyeBajas,
+                                                         @RequestParam(name = "orden", defaultValue = "A") String orden,
                                                          @RequestParam(name = "offSet", defaultValue = "0") String offSet,
                                                          @RequestParam(name = "rowCount", defaultValue = "25") String rowCount) {
-        Map<String, Object> endpoint = clientesService.buscarClientes(cadena, incluyeBajas, offSet, rowCount);
+        Map<String, Object> endpoint = clientesService.buscarClientes(cadena, incluyeBajas, orden, offSet, rowCount);
         return new ResponseEntity<>(endpoint, HttpStatus.OK);
     }
 

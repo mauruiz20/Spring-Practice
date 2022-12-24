@@ -1,24 +1,23 @@
 package com.spring.crudtemplate.service;
 
-import com.spring.crudtemplate.model.Busqueda;
 import com.spring.crudtemplate.model.Clientes;
 import com.spring.crudtemplate.repository.ClientesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.logging.Logger;
 
 @Service
 public class ClientesService {
     @Autowired
     ClientesRepository clientesRepository;
 
-    public Map<String, Object> buscarClientes(String cadena, String incluyeBajas, String offSet, String rowCount) {
+    public Map<String, Object> buscarClientes(String cadena, String incluyeBajas, String orden, String offSet, String rowCount) {
 
         Map<String, Object> endpoint = new TreeMap<String, Object>();
         int numRows = clientesRepository.obtenerNumRows(cadena, incluyeBajas);
-        List<Clientes> clientes = clientesRepository.csp_buscar_clientes(cadena, incluyeBajas, offSet, rowCount);
+        List<Clientes> clientes = clientesRepository.csp_buscar_clientes(cadena, incluyeBajas, orden, offSet, rowCount);
 
         endpoint.put("numRows", numRows);
         endpoint.put("results", clientes);
@@ -41,7 +40,8 @@ public class ClientesService {
                 cliente.getTelefono(),
                 cliente.getDireccion(),
                 cliente.getNacimiento(),
-                cliente.getNacionalidad()
+                cliente.getNacionalidad(),
+                new BCryptPasswordEncoder().encode(cliente.getClave())
         );
     }
 
@@ -56,7 +56,8 @@ public class ClientesService {
                 cliente.getTelefono(),
                 cliente.getDireccion(),
                 cliente.getNacimiento(),
-                cliente.getNacionalidad()
+                cliente.getNacionalidad(),
+                new BCryptPasswordEncoder().encode(cliente.getClave())
         );
     }
 

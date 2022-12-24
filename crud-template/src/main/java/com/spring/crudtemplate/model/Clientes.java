@@ -33,13 +33,16 @@ public class Clientes {
     @Column(name = "Nacionalidad") @NonNull
     private String Nacionalidad;
 
+    @Column(name = "Clave") @NonNull
+    private String Clave;
+
     @Column(name = "Estadocliente") @NonNull
     private char EstadoCliente;
 
     public Clientes() {
     }
 
-    public Clientes(String apellidos, String nombres, String email, String telefono, String direccion, String nacimiento, String nacionalidad) {
+    public Clientes(String apellidos, String nombres, String email, String telefono, String direccion, String nacimiento, String nacionalidad, String clave) {
         Apellidos = apellidos;
         Nombres = nombres;
         Email = email;
@@ -47,6 +50,7 @@ public class Clientes {
         Direccion = direccion;
         Nacimiento = nacimiento;
         Nacionalidad = nacionalidad;
+        Clave = clave;
     }
 
     public int getIdCliente() {
@@ -119,5 +123,14 @@ public class Clientes {
 
     public void setEstadoCliente(char estadoCliente) {
         EstadoCliente = estadoCliente;
+    }
+
+    @NonNull
+    public String getClave() {
+        return Clave;
+    }
+
+    public void setClave(@NonNull String clave) {
+        Clave = clave;
     }
 }
