@@ -1,6 +1,6 @@
 package com.spring.crudtemplate.security;
 
-import com.spring.crudtemplate.model.Clientes;
+import com.spring.crudtemplate.model.Usuario;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,10 +9,10 @@ import java.util.Collections;
 
 public class UserDetailsImp implements UserDetails {
 
-    private final Clientes cliente;
+    private final Usuario usuario;
 
-    public UserDetailsImp(Clientes cliente) {
-        this.cliente = cliente;
+    public UserDetailsImp(Usuario usuario) {
+        this.usuario = usuario;
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -21,12 +21,12 @@ public class UserDetailsImp implements UserDetails {
 
     @Override
     public String getPassword() {
-        return cliente.getClave();
+        return usuario.getClave();
     }
 
     @Override
     public String getUsername() {
-        return cliente.getEmail();
+        return usuario.getEmail();
     }
 
     @Override
@@ -50,6 +50,6 @@ public class UserDetailsImp implements UserDetails {
     }
 
     public String getNombre() {
-        return cliente.getNombres();
+        return usuario.getNombres();
     }
 }
