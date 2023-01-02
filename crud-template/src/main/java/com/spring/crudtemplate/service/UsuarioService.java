@@ -1,41 +1,51 @@
 package com.spring.crudtemplate.service;
 
-import com.spring.crudtemplate.model.Rol;
+import com.spring.crudtemplate.model.PagedResponse;
 import com.spring.crudtemplate.model.Usuario;
 import com.spring.crudtemplate.repository.UsuarioRepository;
+import com.spring.crudtemplate.repository.UsuarioRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
 @Service
 public class UsuarioService {
-    @Autowired
+
     UsuarioRepository usuarioRepository;
+    UsuarioRepositoryImpl usuarioRepositoryImpl;
 
-    public Map<String, Object> buscarUsuarios(String cadena, String incluyeBajas, String orden, String offSet, String rowCount) {
+    @Autowired
+    public UsuarioService(UsuarioRepository usuarioRepository, UsuarioRepositoryImpl usuarioRepositoryImpl) {
+        this.usuarioRepository = usuarioRepository;
+        this.usuarioRepositoryImpl = usuarioRepositoryImpl;
+    }
 
-        Map<String, Object> endpoint = new TreeMap<String, Object>();
-        int numRows = usuarioRepository.obtenerNumRows(cadena, incluyeBajas);
-        List<Usuario> usuarios = usuarioRepository.csp_buscar_usuarios(cadena, incluyeBajas, orden, offSet, rowCount);
+    @Transactional
+    public PagedResponse<Usuario> buscarUsuarios(String cadena, String incluyeBajas, String orden, int offSet, int rowCount) {
 
-        endpoint.put("numRows", numRows);
-        endpoint.put("results", usuarios);
+        Integer numRows = 0;
+        PagedResponse<Usuario> response = usuarioRepositoryImpl.buscarUsuarios(cadena, incluyeBajas, orden, offSet, rowCount, numRows);;
 
-        return endpoint;
+//        if (!usuarios.isEmpty()) {
+//            numRows = usuarios.get(0).getNumRows();
+//        }
+
+        return response;
     }
 
     public Optional<Usuario> dameUsuario(int IdUsuario) {
 
-        return usuarioRepository.csp_dame_usuario(IdUsuario);
+        return usuarioRepository.dameUsuario(IdUsuario);
     }
 
     public String crearUsuario(Usuario usuario) {
 
         if (!validarCampos(usuario)) return "Parámetros erróneos";
-        return usuarioRepository.csp_crear_usuario(
-                usuario.getRol().getIdRol(),
+        return usuarioRepository.crearUsuario(
+                usuario.getIdRol(),
                 usuario.getApellidos(),
                 usuario.getNombres(),
                 usuario.getEmail(),
@@ -48,9 +58,9 @@ public class UsuarioService {
     public String modificarUsuario(Usuario usuario, int IdUsuario) {
 
         if (!validarCampos(usuario)) return "Parámetros erróneos";
-        return usuarioRepository.csp_modificar_usuario(
+        return usuarioRepository.modificarUsuario(
                 IdUsuario,
-                usuario.getRol().getIdRol(),
+                usuario.getIdRol(),
                 usuario.getApellidos(),
                 usuario.getNombres(),
                 usuario.getEmail(),
@@ -62,17 +72,17 @@ public class UsuarioService {
 
     public String borrarUsuario(int IdUsuario) {
 
-        return usuarioRepository.csp_borrar_usuario(IdUsuario);
+        return usuarioRepository.borrarUsuario(IdUsuario);
     }
 
     public String darAltaUsuario(int IdUsuario) {
 
-        return usuarioRepository.csp_daralta_usuario(IdUsuario);
+        return usuarioRepository.darAltaUsuario(IdUsuario);
     }
 
     public String darBajaUsuario(int IdUsuario) {
 
-        return usuarioRepository.csp_darbaja_usuario(IdUsuario);
+        return usuarioRepository.darBajaUsuario(IdUsuario);
     }
 
     private boolean validarCampos(Usuario usuario) {
