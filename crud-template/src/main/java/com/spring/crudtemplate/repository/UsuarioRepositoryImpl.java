@@ -16,7 +16,7 @@ public class UsuarioRepositoryImpl {
     @PersistenceContext
     EntityManager entityManager;
 
-    public PagedResponse<Usuario> buscarUsuarios(String cadena, String incluyeBajas, String orden, int offset, int rowCount, Integer numRows) {
+    public PagedResponse<Usuario> buscarUsuarios(String cadena, String incluyeBajas, String orden, int offset, int rowCount, int numRows) {
         StoredProcedureQuery q = entityManager.createStoredProcedureQuery("csp_buscar_usuarios");
 
         q.registerStoredProcedureParameter("pCadena", String.class, ParameterMode.IN);
@@ -34,7 +34,7 @@ public class UsuarioRepositoryImpl {
 
         q.execute();
 
-        numRows = (Integer) q.getOutputParameterValue("NumRows");
+        numRows = (int) q.getOutputParameterValue("NumRows");
 
         List<Object[]> usuarios = q.getResultList();
         List<Usuario> listaUsuarios = new ArrayList<>();
@@ -53,7 +53,10 @@ public class UsuarioRepositoryImpl {
             listaUsuarios.add(usuario);
         }
 
-        return new PagedResponse<>(numRows, listaUsuarios);
+        int page = (offset / rowCount) + 1;
+        boolean last = page == (int) Math.ceil(numRows / (double) rowCount);
+
+        return new PagedResponse<>(page, last, numRows, listaUsuarios);
     }
 }
 

@@ -1,35 +1,18 @@
 package com.spring.crudtemplate.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.List;
+
+@Getter @Setter @AllArgsConstructor @NoArgsConstructor
 
 public class PagedResponse<T> {
 
+    private int page;
+    private boolean last;
     private int numRows;
-
-    private List<T> results;
-
-    public PagedResponse() {
-
-    }
-
-    public PagedResponse(int numRows, List<T> results) {
-        this.numRows = numRows;
-        this.results = results;
-    }
-
-    public List<T> getResults() {
-        return results;
-    }
-
-    public void setResults(List<T> results) {
-        this.results = results;
-    }
-
-    public int getNumRows() {
-        return numRows;
-    }
-
-    public void setNumRows(int numRows) {
-        this.numRows = numRows;
-    }
+    private List<T> result;
 }

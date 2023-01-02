@@ -3,11 +3,9 @@ package com.spring.crudtemplate.repository;
 import com.spring.crudtemplate.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -21,16 +19,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 //            @Param("pOffSet") int pOffSet,
 //            @Param("pRowCount") int pRowCount
 //    );
-
-    @Procedure(name = "csp_buscar_usuarios", procedureName = "csp_buscar_usuarios", outputParameterName = "NumRows")
-    List<Usuario> buscarUsuarios(
-            @Param("pCadena") String pCadena,
-            @Param("pIncluyeBajas") String pIncluyeBajas,
-            @Param("pOrden") String pOrden,
-            @Param("pOffSet") int pOffSet,
-            @Param("pRowCount") int pRowCount,
-            @Param("NumRows") Integer NumRows
-    );
 
 //    @Query(value = "call csp_obtener_num_usuarios(:pCadena, :pIncluyeBajas)", nativeQuery = true)
 //    Integer obtenerNumRows(
@@ -75,4 +63,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 
     @Query(value = "{call csp_iniciar_sesion(:pEmail)}", nativeQuery = true)
     Optional<Usuario> iniciarSesion(@Param("pEmail") String pEmail);
+
+    boolean existsByEmail(String email);
+
+    boolean existsByEmailAndIdUsuarioNot(String email, int idUsuario);
 }
